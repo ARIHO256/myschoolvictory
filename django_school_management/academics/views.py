@@ -9,9 +9,9 @@ from django.views.generic import ListView
 from django.urls import reverse_lazy
 
 from .constants import AcademicsURLConstants
-from .models import (Semester, Department,
+from .models import (Term, Department,
                      AcademicSession, Subject, Batch)
-from .forms import SemesterForm, DepartmentForm, AcademicSessionForm, SubjectForm
+from .forms import TermForm, TermForm, DepartmentForm, AcademicSessionForm, SubjectForm
 from permission_handlers.administrative import (
     user_is_admin_su_editor_or_ac_officer,
     user_editor_admin_or_su,
@@ -22,21 +22,21 @@ from ..mixins.created_by import CreatedByMixin
 
 
 @user_passes_test(user_is_admin_su_editor_or_ac_officer)
-def semesters(request):
+def terms(request):
     """
-    Shows semester list and
-    contains semester create form
+    Shows term list and
+    contains term create form
     """
-    # TODO: Allow multiple semester creation together. (1,3,4,5) like this format.
-    all_sems = Semester.objects.all()
+    # TODO: Allow multiple term creation together. (1,3,4,5) like this format.
+    all_sems = Term.objects.all()
     if request.method == 'POST':
-        form = SemesterForm(request.POST)
+        form = TermForm(request.POST)
         if form.is_valid():
             semster = form.save(commit=False)
             semster.created_by = request.user
             semster.save()
-            return redirect(AcademicsURLConstants.all_semester)
-    form = SemesterForm()
+            return redirect(AcademicsURLConstants.all_term)
+    form = TermForm()
     ctx = {
         'all_sems': all_sems,
         'form': form,
@@ -91,10 +91,10 @@ def departments(request):
 
 
 @user_passes_test(user_editor_admin_or_su)
-def delete_semester(request, pk):
-    obj = get_object_or_404(Semester, pk=pk)
+def delete_term(request, pk):
+    obj = get_object_or_404(Term, pk=pk)
     obj.delete()
-    return redirect(AcademicsURLConstants.all_semester)
+    return redirect(AcademicsURLConstants.all_term)
 
 
 class UpdateDepartment(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -159,28 +159,28 @@ class CreateDepartmentView(LoginRequiredMixin, UserPassesTestMixin, CreateView, 
 create_department = CreateDepartmentView.as_view()
 
 
-class CreateSemesterView(LoginRequiredMixin, UserPassesTestMixin, CreateView, CreatedByMixin):
-    form_class = SemesterForm
-    success_url = reverse_lazy(AcademicsURLConstants.all_semester)
-    template_name = 'academics/create_semester.html'
+class CreateTermView(LoginRequiredMixin, UserPassesTestMixin, CreateView, CreatedByMixin):
+    form_class = TermForm
+    success_url = reverse_lazy(AcademicsURLConstants.all_term)
+    template_name = 'academics/create_term.html'
 
     def test_func(self):
         user = self.request.user
         return user_editor_admin_or_su(user)
 
-create_semester = CreateSemesterView.as_view()
+create_term = CreateTermView.as_view()
 
 
 class CreateAcademicSession(LoginRequiredMixin, UserPassesTestMixin, CreateView, CreatedByMixin):
     form_class = AcademicSessionForm
     success_url = reverse_lazy(AcademicsURLConstants.academic_sessions)
-    template_name = 'academics/create_academic_semester.html'
+    template_name = 'academics/create_academic_term.html'
 
     def test_func(self):
         user = self.request.user
         return user_is_admin_su_editor_or_ac_officer(user)
 
-create_academic_semester = CreateAcademicSession.as_view()
+create_academic_term = CreateAcademicSession.as_view()
 
 
 class SubjectListView(LoginRequiredMixin, UserPassesTestMixin, ListView):

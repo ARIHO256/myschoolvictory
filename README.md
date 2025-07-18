@@ -27,6 +27,6 @@ And finally, while django server is running, run this command on another termina
 * Handle payment, admission, rejection, update candidate's status after communication
 * Assign student to an academic batch, class
 * Manage counseling (admission) dashboard with data visualization (download/view pdf reports)
-* CRUD departments, subjects, teachers, academic session, semester; import subjects from csv file
+* CRUD departments, subjects, teachers, academic session, term; import subjects from csv file
 * Teacher list view, students list view, designation CRUD
 * Create users, users list, view user groups and permissions

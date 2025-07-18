@@ -16,9 +16,9 @@ urlpatterns = [
         name=AcademicsURLEnum.create_batch.name
     ),
     path(
-        AcademicsURLEnum.all_semester.value,
-        views.semesters,
-        name=AcademicsURLEnum.all_semester.name
+        AcademicsURLEnum.all_term.value,
+        views.terms,
+        name=AcademicsURLEnum.all_term.name
     ),
     path(
         AcademicsURLEnum.departments.value,
@@ -31,13 +31,13 @@ urlpatterns = [
         name=AcademicsURLEnum.create_department.name
     ),
     path(
-        AcademicsURLEnum.create_semester.value,
-        views.create_semester,
-        name=AcademicsURLEnum.create_semester.name
+        AcademicsURLEnum.create_term.value,
+        views.create_term,
+        name=AcademicsURLEnum.create_term.name
     ),
     path(
         AcademicsURLEnum.create_academic_session.value,
-        views.create_academic_semester,
+        views.create_academic_term,
         name=AcademicsURLEnum.create_academic_session.name
     ),
     path(

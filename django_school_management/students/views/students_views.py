@@ -11,7 +11,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 
 from django_school_management.academics.models import (
     Department,
-    Semester,
+    Term,
     Batch,
     AcademicSession,
 )
@@ -198,15 +198,15 @@ def admission_confirmation(request):
             to_be_admitted = []
 
         try:
-            # get first semester to admit in first semester.
-            semester_number = 1
-            semester = Semester.objects.get(number=semester_number)
+            # get first term to admit in first term.
+            term_number = 1
+            term = Term.objects.get(number=term_number)
             batch = Batch.objects.get(id=batch_id)
-        except Semester.DoesNotExist:
+        except Term.DoesNotExist:
             messages.add_message(
                 request,
                 messages.ERROR,
-                f"Given semester number {semester_number} not found!",
+                f"Given term number {term_number} not found!",
             )
         except Batch.DoesNotExist:
             messages.add_message(
@@ -226,7 +226,7 @@ def admission_confirmation(request):
             try:
                 student = Student.objects.create(
                     admission_student=candidate,
-                    semester=semester,
+                    term=term,
                     batch=batch,
                     ac_session=session,
                     admitted_by=request.user,
@@ -347,10 +347,10 @@ def students_view(request):
     """
     :param request:
     :return: renders student list with all department
-    and semesters list.
+    and terms list.
     """
     all_students = Student.objects.select_related(
-        "admission_student", "semester", "ac_session"
+        "admission_student", "term", "ac_session"
     ).all()
     context = {
         "students": all_students,
@@ -362,7 +362,7 @@ def students_view(request):
 def students_by_department_view(request, pk):
     dept_name = Department.objects.get(pk=pk)
     students = Student.objects.select_related(
-        "department", "semester", "ac_session"
+        "department", "term", "ac_session"
     ).filter(department=dept_name)
     context = {
         "students": students,
@@ -419,7 +419,7 @@ class StudentDetailsView(
         # for showing subjects in option form
         student_subject_qs = SubjectGroup.objects.filter(
             department=student.admission_student.choosen_department,
-            semester=student.semester,
+            term=student.term,
         )
         context["subjects"] = student_subject_qs
         # getting result objects
@@ -469,7 +469,7 @@ def student_my_portal(request, student_id: str):
 
     department = student.admission_student.choosen_department
     subject_group = SubjectGroup.objects.filter(
-        department=department, semester=student.semester
+        department=department, term=student.term
     ).first()
     ctx = {"student": student, "subjects": subject_group.subjects.all()}
     return render(request, "students/my-portal.html", ctx)

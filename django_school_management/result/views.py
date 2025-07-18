@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponse
 
 from django_school_management.students.models import Student
-from django_school_management.academics.models import Semester, Subject, Department
+from django_school_management.academics.models import Term, Subject, Department
 from .models import Result, SubjectGroup
 from .filters import ResultFilter, SubjectGroupFilter
 from permission_handlers.basic import user_is_verified
@@ -27,21 +27,21 @@ def result_view(request):
 def result_detail_view(request, student_pk):
     student = get_object_or_404(Student, pk=student_pk)
     student_results = student.results.all()
-    semesters = list(Semester.objects.all())
-    semester_results = {}
-    active_semesters = []
+    terms = list(Term.objects.all())
+    term_results = {}
+    active_terms = []
 
-    for semester in semesters:
-        results = student_results.filter(semester=semester)
+    for term in terms:
+        results = student_results.filter(term=term)
         if results:
-            active_semesters.append(semester)
-            semester_results.update(
-                {f'{semester}': results}
+            active_terms.append(term)
+            term_results.update(
+                {f'{term}': results}
             )
     ctx = {
         'student': student,
-        'semester_results': semester_results,
-        'active_semesters': active_semesters
+        'term_results': term_results,
+        'active_terms': active_terms
     }
     return render(request, 'result/result_detail.html', ctx)
 
@@ -76,7 +76,7 @@ def result_entry(request):
         # get student from pk
         student_temp_id = request.POST.get('student_id')
         student = Student.objects.get(temporary_id=student_temp_id)
-        semester = Semester.objects.get(pk=int(request.POST.get('semester')))
+        term = Term.objects.get(pk=int(request.POST.get('term')))
 
         result_created = {}
         for key, value in data_items:
@@ -95,7 +95,7 @@ def result_entry(request):
                         )
                         result = Result(
                             student=student,
-                            semester=semester,
+                            term=term,
                             subject=subject,
                             practical_marks=practical_marks,
                             theory_marks=theory_marks
@@ -121,20 +121,20 @@ def result_entry(request):
 @user_passes_test(user_is_teacher_or_administrative)
 def create_subject_group(request):
     departments = Department.objects.all()
-    semesters = Semester.objects.all()
+    terms = Term.objects.all()
     subjects = Subject.objects.all()
 
     if request.method == 'POST':
         dept_pk = int(request.POST.get('department'))
         subject_list = request.POST.getlist('subject')
-        semester_pk = int(request.POST.get('semester'))
+        term_pk = int(request.POST.get('term'))
 
         dept = Department.objects.get(pk=dept_pk)
-        semester = Semester.objects.get(pk=semester_pk)
+        term = Term.objects.get(pk=term_pk)
 
         subject_group = SubjectGroup.objects.create(
             department=dept,
-            semester=semester
+            term=term
         )
 
         subject_objects = []
@@ -147,7 +147,7 @@ def create_subject_group(request):
         return redirect('result:subject_groups')
     ctx = {
         'departments': departments,
-        'semesters': semesters,
+        'terms': terms,
         'subjects': subjects,
     }
     return render(request, 'result/create_subject_groups.html', ctx)

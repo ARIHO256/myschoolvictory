@@ -73,7 +73,7 @@ class AcademicSession(TimeStampedModel):
         return reverse(AcademicsURLConstants.create_academic_session)
 
 
-class Semester(TimeStampedModel):
+class Term(TimeStampedModel):
     number = models.PositiveIntegerField(unique=True)
     guide = models.ForeignKey(
         Teacher, on_delete=models.CASCADE,
@@ -98,7 +98,7 @@ class Semester(TimeStampedModel):
             return '%sth' % self.number
     
     def create_resource(self):
-        return reverse(AcademicsURLConstants.create_semester)
+        return reverse(AcademicsURLConstants.create_term)
 
 
 class Subject(TimeStampedModel):

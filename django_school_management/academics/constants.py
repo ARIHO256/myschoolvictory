@@ -2,10 +2,10 @@ from enum import Enum
 
 
 class AcademicsURLEnum(Enum):
-    all_semester = 'semesters/'
+    all_term = 'terms/'
     departments = 'departments/'
     create_department = 'create-department/'
-    create_semester = 'create-semester/'
+    create_term = 'create_term/'
     create_academic_session = 'create-academic-session/'
     create_subject = 'create-subject'
     delete_dept = 'depts/delete/<int:pk>/'
@@ -18,10 +18,10 @@ class AcademicsURLEnum(Enum):
 
 
 class AcademicsURLConstants:
-    all_semester = f'academics:{AcademicsURLEnum.all_semester.name}'
+    all_term = f'academics:{AcademicsURLEnum.all_term.name}'
     departments = f'academics:{AcademicsURLEnum.departments.name}'
     create_department = f'academics:{AcademicsURLEnum.create_department.name}'
-    create_semester = f'academics:{AcademicsURLEnum.create_semester.name}'
+    create_term = f'academics:{AcademicsURLEnum.create_term.name}'
     create_academic_session = f'academics:{AcademicsURLEnum.create_academic_session.name}'
     create_subject = f'academics:{AcademicsURLEnum.create_subject.name}'
     delete_dept = f'academics:{AcademicsURLEnum.delete_dept.name}'

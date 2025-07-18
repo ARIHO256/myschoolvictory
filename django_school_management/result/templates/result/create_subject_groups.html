@@ -14,7 +14,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <!-- Dept, Semester form -->
+    <!-- Dept, Term form -->
     <form action="" id="subjectGroupCreateForm" method="post">
       {% csrf_token %}
       <!-- Inputs -->
@@ -28,11 +28,11 @@
             {% endfor %}
           </select>
 
-          <label class="sr-only" for="semester">Semester</label>
-          <select name="semester" class="form-control mb-2 mr-sm-2" id="semester">
-            <option value="" selected disabled>Choose Semester</option>
-            {% for semester in semesters %}
-              <option value="{{ semester.pk }}">{{ semester }}</option>
+          <label class="sr-only" for="term">Term</label>
+          <select name="term" class="form-control mb-2 mr-sm-2" id="term">
+            <option value="" selected disabled>Choose Term</option>
+            {% for term in terms %}
+              <option value="{{ term.pk }}">{{ term }}</option>
             {% endfor %}
           </select>
         </div>
@@ -88,12 +88,12 @@
   <script>
     const subjectsContainer = document.getElementById('subjects-container');
     const dept = document.getElementById('department');
-    const semster = document.getElementById('semester');
+    const semster = document.getElementById('term');
     const subjectGroupForm = document.getElementById('subjectGroupCreateForm');
     const hiddenInputs = document.getElementById('hiddenInputs');
-    const semesterPk = parseInt(semester.value);
+    const termPk = parseInt(term.value);
     const deptPk = parseInt(dept.value);
-    const url = `{% url 'result:create_subject_group' dept_pk=${deptPk} semester_pk=${semesterPk}`;
+    const url = `{% url 'result:create_subject_group' dept_pk=${deptPk} term_pk=${termPk}`;
     const selectedCounterContainer = document.getElementById('subjectCounter');
     const selectedCounter = document.getElementById('subjectCounterN');
     

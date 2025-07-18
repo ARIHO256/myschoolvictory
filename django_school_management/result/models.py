@@ -5,7 +5,7 @@ from django.conf import settings
 from django.urls import reverse
 
 from django_school_management.students.models import Student
-from django_school_management.academics.models import Subject, Semester, Department
+from django_school_management.academics.models import Subject, Term, Department
 
 
 class Exam(TimeStampedModel):
@@ -30,8 +30,8 @@ class Result(TimeStampedModel):
         on_delete=models.CASCADE,
         related_name='results'
     )
-    semester = models.ForeignKey(
-        Semester,
+    term = models.ForeignKey(
+        Term,
         on_delete=models.CASCADE
     )
     subject = models.ForeignKey(
@@ -56,7 +56,7 @@ class Result(TimeStampedModel):
     )
 
     class Meta:
-        unique_together =  ('student', 'semester', 'subject')
+        unique_together =  ('student', 'term', 'subject')
 
     def __str__(self):
         return f'{self.student} | {self.subject} | {self.total_marks}'
@@ -73,22 +73,22 @@ class Result(TimeStampedModel):
 
 class SubjectGroup(TimeStampedModel):
     """ Keep track of group of subjects that belongs to a
-    department, semester
+    department, term
     """
     department = models.ForeignKey(
         Department,
         related_name='subjects',
         on_delete=models.DO_NOTHING
     )
-    semester = models.ForeignKey(
-        Semester,
+    term = models.ForeignKey(
+        Term,
         related_name='subjects',
         on_delete=models.CASCADE
     )
     subjects = models.ManyToManyField(Subject, blank=True)
 
     def __str__(self):
-        return f'{self.department} - {self.semester}'
+        return f'{self.department} - {self.term}'
     
     def get_subjects(self):
         return " | ".join([str(sg) for sg in self.subjects.all()])

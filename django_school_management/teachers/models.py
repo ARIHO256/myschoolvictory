@@ -13,7 +13,7 @@ class Designation(TimeStampedModel):
 
 
 class Teacher(TimeStampedModel):
-    employee_id = models.CharField(max_length=50)
+    employee_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=150)
     photo = models.ImageField(upload_to='teachers',
                                 default='teacheravatar.jpg')

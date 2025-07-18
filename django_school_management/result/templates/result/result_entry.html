@@ -30,7 +30,7 @@
                     {{ subject_group_filter.form.department|as_crispy_field }}
                 </div>
                 <div class="col">
-                    {{ subject_group_filter.form.semester|as_crispy_field }}
+                    {{ subject_group_filter.form.term|as_crispy_field }}
                 </div>
                 <div class="col">
                     <div class="form-group">
@@ -76,7 +76,7 @@
                 <tbody>
                     {% for subject_group in subject_group_filter.qs %} 
 
-                        <input type="hidden" name="semester" value="{{ subject_group.semester.pk }}">
+                        <input type="hidden" name="term" value="{{ subject_group.term.pk }}">
                         
                         {% for subject in subject_group.subjects.all %}
                             <tr>

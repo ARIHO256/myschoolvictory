@@ -6,7 +6,7 @@ from django.db import (
 )
 from django.conf import settings
 from django_school_management.academics.models import (
-    Department, Semester,
+    Department, Term,
     AcademicSession, Batch, 
     TempSerialID
 )
@@ -166,8 +166,8 @@ class Student(TimeStampedModel):
     registration_number = models.CharField(max_length=6, unique=True, blank=True, null=True)
     temp_serial = models.CharField(max_length=50, blank=True, null=True)
     temporary_id = models.CharField(max_length=50, blank=True, null=True)
-    semester = models.ForeignKey(
-        Semester, on_delete=models.CASCADE)
+    term = models.ForeignKey(
+        Term, on_delete=models.CASCADE)
     ac_session = models.ForeignKey(
         AcademicSession, on_delete=models.CASCADE,
         blank=True, null=True
@@ -189,12 +189,12 @@ class Student(TimeStampedModel):
     alumnus = AlumniManager()
 
     class Meta:
-        ordering = ['semester', 'roll', 'registration_number']
+        ordering = ['term', 'roll', 'registration_number']
 
     def __str__(self):
-        return '{} ({}) semester {} dept.'.format(
+        return '{} ({}) term {} dept.'.format(
             self.admission_student.name,
-            self.semester,
+            self.term,
             self.admission_student.choosen_department
         )
 
@@ -273,8 +273,8 @@ class RegularStudent(TimeStampedModel):
         settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE
     )
-    semester = models.ForeignKey(
-        Semester, on_delete=models.CASCADE)
+    term = models.ForeignKey(
+        Term, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.student.name} {self.semester}"
+        return f"{self.student.name} {self.term}"

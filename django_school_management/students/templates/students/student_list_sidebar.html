@@ -20,15 +20,15 @@
     </li>
     {% endif %}
     <li class=" list-group-item">
-        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseSemester" aria-expanded="true"
-            aria-controls="collapseSemester">
-            Semester
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTerm" aria-expanded="true"
+            aria-controls="collapseTerm">
+            Term
         </button>
         <div id="accordion">
-            <ul class="list-group-flush collapse" id="collapseSemester" data-parent="#accordion">
-                {% for sem in semesters %}
+            <ul class="list-group-flush collapse" id="collapseTerm" data-parent="#accordion">
+                {% for tem in terms %}
                 <li class="list-group-item">
-                    <a href="">{{ sem }}</a>
+                    <a href="">{{ tem }}</a>
                 </li>
                 {% endfor %}
             </ul>

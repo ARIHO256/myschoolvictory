@@ -27,7 +27,7 @@ env = environ.Env(
     SSL_ISSANDBOX=(bool, True),
 )
 # reading .env file
-env.read_env(str(BASE_DIR / "envs/.env"))
+env.read_env(str(BASE_DIR / ".env"))
 
 SECRET_KEY = env('SECRET_KEY')
 

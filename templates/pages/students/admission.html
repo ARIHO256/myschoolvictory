@@ -1,0 +1,107 @@
+{% extends 'website/partials/website_base.html' %}
+{% load crispy_forms_tags %}
+
+{% block extra_css %}
+    <!-- SELECT 2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .selection {
+            width: 100% !important;
+        }
+        #id_current_address, #id_permanent_address {
+            max-height: 75px;
+        }
+    </style>
+{% endblock %}
+
+{% block main_content %}
+    {% include 'website/partials/website_navbar.html' %}
+    <div id="admission-header" class="text-light py-5 text-center" style="background: linear-gradient(95deg, #5533ff 40%, #25ddf5 100%)">
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h2 class="text-light">Admission Form</h2>
+                    <p class="text-light">Please fill out the form accurately. We’ll get back to you soon.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="admission-form-main" class="py-4">
+        <div class="container-fluid">
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form id="admission-form" action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <input type="submit" value="Submit" class="btn btn-success">
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <div class="notice p-4 bg-primary text-light" style="text-align: justify;">
+                        <div class="video-instruction w-100">
+                            <iframe class="embed-responsive-item w-100" height="280" src="https://www.youtube.com/embed/fQx_ZdqCX3I" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+                        </div>
+                        <h6 style="color: black; font-size: 22px; font-weight: bold;">
+                            Please review the admission requirements before submitting this form.
+                        </h6>
+                        <h6>
+                            <b>Eligibility for Admission</b>
+                        </h6>
+                        <p class="text-light">
+                            1. Must have completed **Primary Seven (P.7)** and passed the **PLE (Primary Leaving Examination)**. <br>
+                            2. For O-Level programs, applicants must have completed **Senior Four (S.4)** and passed **UCE**. <br>
+                            3. Students who completed school between 2010 and now are also eligible. <br>
+                            4. Candidates must have valid academic documents from UNEB or an equivalent recognized body.
+                        </p>
+                        <h3 class="mt-2" style="color: black; font-size: 22px; font-weight: bold;">
+                            Terms and Conditions
+                        </h3>
+                        <p class="text-light">
+                            1. Admission fees must be paid within 24 hours after application approval. <br>
+                            2. Admission fees are non-refundable. <br>
+                            3. After mobile money payment (e.g. MTN or Airtel), the transaction ID must be sent via SMS. <br>
+                            4. After successful admission, a roll number will be issued via SMS or email. <br>
+                            5. To cancel your admission, please visit the school office in person.
+                        </p>
+                        <p class="text-light">
+                            <b>
+                                For Support: +256 701 234 567
+                            </b>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script>
+        // Select image
+        $('input[type="file"]').change(function(e){
+            const fileName = e.target.files[0].name;
+            $('.custom-file-label').html(fileName);
+        });
+
+        // Select2 for city choice
+        $(document).ready(function() {
+            $('#id_city').select2();
+        });
+    </script>
+{% endblock %}

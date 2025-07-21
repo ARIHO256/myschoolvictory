@@ -36,7 +36,7 @@ class TestStudentsViews(TestCase):
             fathers_name='testfather',
             mothers_name='testmother',
             date_of_birth=date.today(),
-            email='tareqmonwer137@gmail.com',
+            email='achiever137@gmail.com',
             city='13',
             current_address='testaddress',
             permanent_address='testparmanentaddress',
@@ -78,8 +78,8 @@ class EmailTest(TestCase):
         mail.send_mail(
             'Test subject',
             'Test message.',
-            'tareqmonwer.dpi@gmail.com',
-            ['tareqmonwer137@gmail.com'],
+            'achiever.dpi@gmail.com',
+            ['achiever137@gmail.com'],
             fail_silently=False
         )
         self.assertEqual(len(mail.outbox), 1)

@@ -40,7 +40,7 @@ def online_admission_sslpayment(request, pk):
     post_body['total_amount'] = 10000.50
     post_body['currency'] = "BDT"
     post_body['tran_id'] = registrant.id
-    post_body['success_url'] = "https://tareqmonwer.com"
+    post_body['success_url'] = "https://achiever.com"
     post_body['fail_url'] = "www.erpbud.com/blog/"
     post_body['cancel_url'] = "www.erpbud.com"
     post_body['emi_option'] = 0
